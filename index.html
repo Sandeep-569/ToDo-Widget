@@ -21,19 +21,16 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ===== Sunset Purple Aesthetic Theme Tokens ===== */
+    /* ===== Sunset Purple Theme Tokens ===== */
     :root {
       --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
       
-      /* Rich Sunset Palette */
       --bg-dark: #0a0314;
-      --bg-glass-base: rgba(20, 8, 38, 0.78);
-      --bg-glass-card: rgba(45, 18, 75, 0.42);
-      --bg-glass-card-hover: rgba(65, 26, 105, 0.58);
-      --bg-glass-input: rgba(36, 14, 62, 0.65);
-      --bg-glass-active: rgba(85, 32, 138, 0.65);
+      --bg-glass-base: rgba(20, 8, 38, 0.88);
+      --bg-glass-card: rgba(48, 18, 80, 0.45);
+      --bg-glass-card-hover: rgba(70, 28, 115, 0.6);
+      --bg-glass-input: rgba(38, 14, 65, 0.7);
 
-      /* Vibrant Accents */
       --primary: #d946ef;
       --primary-bright: #f0abfc;
       --primary-hover: #e879f9;
@@ -41,30 +38,24 @@
       --violet: #8b5cf6;
       --violet-glow: rgba(139, 92, 246, 0.35);
       --sunset-orange: #fb7185;
-      --sunset-glow: rgba(251, 113, 133, 0.35);
       
-      /* Status & Actions */
       --success: #34d399;
-      --success-glow: rgba(52, 211, 153, 0.35);
       --danger: #f43f5e;
       --danger-hover: #fb7185;
       --danger-glow: rgba(244, 63, 94, 0.3);
 
-      /* Typography */
       --text-main: #faf5ff;
       --text-muted: #c4b5fd;
       --text-dim: #8b7cb8;
       --text-strikethrough: #68578c;
 
-      /* Specular Borders & Glass Highlights */
       --border-specular: rgba(255, 255, 255, 0.16);
       --border-subtle: rgba(217, 70, 239, 0.22);
-      --border-bright: rgba(217, 70, 239, 0.48);
+      --border-bright: rgba(217, 70, 239, 0.5);
       --card-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.22);
-      --card-shadow: 0 12px 32px 0 rgba(8, 2, 18, 0.6);
+      --card-shadow: 0 16px 40px 0 rgba(8, 2, 18, 0.65);
       
-      /* Radii */
-      --radius-xl: 26px;
+      --radius-xl: 24px;
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
@@ -83,14 +74,14 @@
       align-items: center;
     }
 
-    /* Ambient background glow orbs */
+    /* Ambient background glow */
     .ambient-glow {
       position: absolute;
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(circle, rgba(217, 70, 239, 0.25) 0%, rgba(139, 92, 246, 0.15) 50%, transparent 70%);
+      width: 340px;
+      height: 340px;
+      background: radial-gradient(circle, rgba(217, 70, 239, 0.22) 0%, rgba(139, 92, 246, 0.12) 50%, transparent 70%);
       border-radius: 50%;
-      filter: blur(50px);
+      filter: blur(55px);
       pointer-events: none;
       z-index: 0;
       animation: pulseGlow 8s ease-in-out infinite alternate;
@@ -152,7 +143,7 @@
     .widget-header {
       display: flex;
       flex-direction: column;
-      padding: 18px 20px 14px;
+      padding: 16px 18px 12px;
       flex-shrink: 0;
       border-bottom: 1px solid var(--border-subtle);
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(217, 70, 239, 0.04) 100%);
@@ -163,34 +154,34 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .brand-title {
       display: flex;
       align-items: center;
-      gap: 9px;
+      gap: 8px;
     }
 
     .brand-icon {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       background: linear-gradient(135deg, #d946ef, #8b5cf6);
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px var(--primary-glow);
+      box-shadow: 0 3px 10px var(--primary-glow);
     }
 
     .brand-icon svg {
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       color: #fff;
     }
 
     .header-title {
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 800;
       letter-spacing: -0.3px;
       background: linear-gradient(135deg, #ffffff 10%, #f5d0fe 50%, #d946ef 100%);
@@ -205,16 +196,16 @@
       gap: 8px;
     }
 
-    /* Pin / Install Button */
+    /* Always-Visible Pin to Home Screen Button */
     .pin-btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: linear-gradient(135deg, rgba(217, 70, 239, 0.28), rgba(139, 92, 246, 0.28));
+      background: linear-gradient(135deg, rgba(217, 70, 239, 0.35), rgba(139, 92, 246, 0.35));
       border: 1px solid var(--border-bright);
-      box-shadow: var(--card-highlight), 0 3px 12px rgba(217, 70, 239, 0.2);
-      color: #fdf4ff;
-      font-size: 12px;
+      box-shadow: var(--card-highlight), 0 3px 12px rgba(217, 70, 239, 0.25);
+      color: #ffffff;
+      font-size: 11.5px;
       font-weight: 700;
       font-family: inherit;
       padding: 6px 12px;
@@ -226,7 +217,7 @@
     .pin-btn:hover {
       background: linear-gradient(135deg, #d946ef, #8b5cf6);
       color: #fff;
-      transform: translateY(-1.5px) scale(1.02);
+      transform: translateY(-1.5px) scale(1.03);
       box-shadow: 0 6px 20px var(--primary-glow);
     }
 
@@ -235,23 +226,23 @@
     }
 
     .pin-btn svg {
-      width: 14px;
-      height: 14px;
+      width: 13px;
+      height: 13px;
       flex-shrink: 0;
     }
 
-    /* Progress & Stats Bar */
+    /* Progress Bar */
     .progress-container {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
 
     .progress-labels {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 600;
       color: var(--text-muted);
     }
@@ -263,7 +254,7 @@
 
     .progress-track {
       width: 100%;
-      height: 6px;
+      height: 5px;
       background: rgba(45, 18, 75, 0.6);
       border-radius: 10px;
       overflow: hidden;
@@ -326,9 +317,9 @@
     /* Input Box Section */
     .add-section {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-shrink: 0;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       position: relative;
     }
 
@@ -341,14 +332,14 @@
 
     .task-input {
       width: 100%;
-      height: 48px;
-      padding: 0 42px 0 16px;
+      height: 46px;
+      padding: 0 42px 0 14px;
       border: 1.5px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-md);
       background: var(--bg-glass-input);
       color: var(--text-main);
       font-family: inherit;
-      font-size: 14px;
+      font-size: 13.5px;
       outline: none;
       box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -379,11 +370,11 @@
     }
 
     .add-btn {
-      width: 48px;
-      height: 48px;
+      width: 46px;
+      height: 46px;
       flex-shrink: 0;
       border: none;
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-md);
       background: linear-gradient(135deg, #d946ef 0%, #8b5cf6 100%);
       color: #fff;
       cursor: pointer;
@@ -391,13 +382,13 @@
       align-items: center;
       justify-content: center;
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 4px 16px var(--primary-glow);
+      box-shadow: 0 4px 14px var(--primary-glow);
     }
 
     .add-btn:hover {
       background: linear-gradient(135deg, #f0abfc 0%, #a855f7 100%);
       transform: translateY(-1.5px) scale(1.04);
-      box-shadow: 0 6px 24px rgba(217, 70, 239, 0.55);
+      box-shadow: 0 6px 20px rgba(217, 70, 239, 0.55);
     }
 
     .add-btn:active {
@@ -438,7 +429,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px 14px;
+      padding: 11px 13px;
       background: var(--bg-glass-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
@@ -529,26 +520,25 @@
     /* Task Text */
     .task-text {
       flex: 1;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 500;
       color: var(--text-main);
       line-height: 1.45;
       word-break: break-word;
       cursor: default;
-      transition: color 0.2s ease;
     }
 
     /* Edit Input */
     .task-edit-input {
       flex: 1;
-      height: 34px;
-      padding: 0 12px;
+      height: 32px;
+      padding: 0 10px;
       border: 1.5px solid var(--primary);
       border-radius: var(--radius-sm);
       background: rgba(30, 10, 54, 0.9);
       color: var(--text-main);
       font-family: inherit;
-      font-size: 13.5px;
+      font-size: 13px;
       outline: none;
       box-shadow: 0 0 0 3px var(--primary-glow);
     }
@@ -567,7 +557,6 @@
       opacity: 1;
     }
 
-    /* Touch fallback: keep actions visible on touch devices */
     @media (hover: none) {
       .task-actions { opacity: 0.85; }
     }
@@ -635,7 +624,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 20px;
+      padding: 12px 18px;
       flex-shrink: 0;
       border-top: 1px solid var(--border-subtle);
       background: rgba(14, 5, 28, 0.6);
@@ -657,7 +646,7 @@
       border: 1px solid rgba(244, 63, 94, 0.25);
       color: #fca5a5;
       cursor: pointer;
-      padding: 5px 14px;
+      padding: 5px 13px;
       border-radius: 20px;
       transition: all 0.2s ease;
       display: inline-flex;
@@ -679,7 +668,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
       padding: 20px 0;
     }
 
@@ -688,22 +677,16 @@
     }
 
     .empty-icon-wrap {
-      width: 64px;
-      height: 64px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(217, 70, 239, 0.2) 0%, rgba(139, 92, 246, 0.05) 70%);
       border: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      font-size: 26px;
       box-shadow: 0 0 24px rgba(217, 70, 239, 0.2);
-      animation: floatIcon 3.5s ease-in-out infinite alternate;
-    }
-
-    @keyframes floatIcon {
-      0% { transform: translateY(-3px); }
-      100% { transform: translateY(3px); }
     }
 
     .empty-state-title {
@@ -713,7 +696,7 @@
     }
 
     .empty-state-subtitle {
-      font-size: 12.5px;
+      font-size: 12px;
       color: var(--text-dim);
       text-align: center;
       max-width: 220px;
@@ -878,7 +861,7 @@
 </head>
 <body>
 
-  <!-- Ambient Light Orbs -->
+  <!-- Ambient Light Orb -->
   <div class="ambient-glow"></div>
 
   <div class="widget-frame">
@@ -894,11 +877,12 @@
           <span class="header-title">My Tasks</span>
         </div>
         <div class="header-actions">
+          <!-- Always Visible Pin Button -->
           <button class="pin-btn" id="pinBtn" title="Pin to Desktop / Home Screen">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 2v14M5 9l7 7 7-7M5 20h14" />
             </svg>
-            <span id="pinBtnText">Pin Widget</span>
+            <span id="pinBtnText">📌 Pin Widget</span>
           </button>
         </div>
       </div>
@@ -1035,12 +1019,6 @@
     let currentFilter = 'all';
     let deferredPrompt = null;
 
-    // Check if running in standalone mode
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    if (isStandalone) {
-      pinBtn.style.display = 'none';
-    }
-
     // Filter tab switching
     filterTabs.forEach(tab => {
       tab.addEventListener('click', () => {
@@ -1055,7 +1033,7 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      pinBtnText.textContent = 'Pin Widget';
+      pinBtnText.textContent = '📌 Pin Widget';
     });
 
     pinBtn.addEventListener('click', () => {
@@ -1067,12 +1045,11 @@
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
-          pinBtn.style.display = 'none';
           pinModal.classList.remove('active');
         }
         deferredPrompt = null;
       } else {
-        alert('To install: click the ⬇️ icon in your browser address bar, or run "Add-To-Home-Screen.bat" from the folder.');
+        alert('To install: click the ⬇️ icon in your browser address bar, or run "Add-To-Home-Screen.bat" from your folder.');
       }
     });
 

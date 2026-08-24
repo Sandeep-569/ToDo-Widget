@@ -5,47 +5,77 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Todo Widget</title>
   <meta name="theme-color" content="#d946ef" />
-  <meta name="description" content="Simple, beautiful sunset purple Todo list widget" />
+  <meta name="description" content="Aesthetic Sunset Purple Desktop Todo Widget" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon-192.svg" type="image/svg+xml" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
+    /* ===== Modern CSS Reset ===== */
     *, *::before, *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
+    /* ===== Sunset Purple Aesthetic Theme Tokens ===== */
     :root {
-      --bg-page: #10061e;
-      --bg-glass: rgba(26, 12, 48, 0.90);
-      --bg-card: rgba(65, 30, 98, 0.45);
-      --bg-card-hover: rgba(85, 42, 128, 0.55);
-      --bg-input: rgba(48, 22, 78, 0.65);
-      --accent: #d946ef;
-      --accent-glow: rgba(217, 70, 239, 0.35);
-      --accent-hover: #e879f9;
-      --accent-soft: rgba(217, 70, 239, 0.16);
-      --text-primary: #f8f2ff;
-      --text-secondary: #c7a9e5;
-      --text-done: #715194;
-      --danger: #f472b6;
-      --danger-hover: #fb7fbe;
-      --success: #a855f7;
-      --success-check: #f3e8ff;
-      --border: rgba(217, 70, 239, 0.18);
-      --border-strong: rgba(217, 70, 239, 0.35);
-      --radius: 14px;
-      --radius-sm: 10px;
-      --shadow: 0 16px 45px rgba(10, 2, 22, 0.65);
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      
+      /* Rich Sunset Palette */
+      --bg-dark: #0a0314;
+      --bg-glass-base: rgba(20, 8, 38, 0.78);
+      --bg-glass-card: rgba(45, 18, 75, 0.42);
+      --bg-glass-card-hover: rgba(65, 26, 105, 0.58);
+      --bg-glass-input: rgba(36, 14, 62, 0.65);
+      --bg-glass-active: rgba(85, 32, 138, 0.65);
+
+      /* Vibrant Accents */
+      --primary: #d946ef;
+      --primary-bright: #f0abfc;
+      --primary-hover: #e879f9;
+      --primary-glow: rgba(217, 70, 239, 0.4);
+      --violet: #8b5cf6;
+      --violet-glow: rgba(139, 92, 246, 0.35);
+      --sunset-orange: #fb7185;
+      --sunset-glow: rgba(251, 113, 133, 0.35);
+      
+      /* Status & Actions */
+      --success: #34d399;
+      --success-glow: rgba(52, 211, 153, 0.35);
+      --danger: #f43f5e;
+      --danger-hover: #fb7185;
+      --danger-glow: rgba(244, 63, 94, 0.3);
+
+      /* Typography */
+      --text-main: #faf5ff;
+      --text-muted: #c4b5fd;
+      --text-dim: #8b7cb8;
+      --text-strikethrough: #68578c;
+
+      /* Specular Borders & Glass Highlights */
+      --border-specular: rgba(255, 255, 255, 0.16);
+      --border-subtle: rgba(217, 70, 239, 0.22);
+      --border-bright: rgba(217, 70, 239, 0.48);
+      --card-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.22);
+      --card-shadow: 0 12px 32px 0 rgba(8, 2, 18, 0.6);
+      
+      /* Radii */
+      --radius-xl: 26px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
     }
 
     html, body {
       height: 100%;
       width: 100%;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: radial-gradient(circle at 50% 0%, #30104f 0%, #17072a 45%, #0d0417 100%);
-      color: var(--text-primary);
+      font-family: var(--font-main);
+      background: radial-gradient(circle at 50% 10%, #2a0b4d 0%, #15062a 50%, #080212 100%);
+      color: var(--text-main);
       user-select: none;
       overflow: hidden;
       display: flex;
@@ -53,30 +83,49 @@
       align-items: center;
     }
 
-    /* ===== Widget Container ===== */
-    /* Browser mode: centered widget card with fixed max-width & height */
+    /* Ambient background glow orbs */
+    .ambient-glow {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(217, 70, 239, 0.25) 0%, rgba(139, 92, 246, 0.15) 50%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(50px);
+      pointer-events: none;
+      z-index: 0;
+      animation: pulseGlow 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% { transform: scale(0.9) translate(-20px, -20px); opacity: 0.7; }
+      100% { transform: scale(1.15) translate(20px, 20px); opacity: 1; }
+    }
+
+    /* ===== Main Widget Card Frame ===== */
     .widget-frame {
       width: 100%;
       max-width: 420px;
       height: 100%;
-      max-height: min(92vh, 680px);
-      background: var(--bg-glass);
-      backdrop-filter: blur(28px) saturate(1.7);
-      -webkit-backdrop-filter: blur(28px) saturate(1.7);
-      border: 1px solid var(--border-strong);
-      border-radius: 24px;
-      box-shadow: var(--shadow), 0 0 40px rgba(217, 70, 239, 0.12);
+      max-height: min(94vh, 700px);
+      background: var(--bg-glass-base);
+      backdrop-filter: blur(36px) saturate(1.8);
+      -webkit-backdrop-filter: blur(36px) saturate(1.8);
+      border: 1px solid var(--border-specular);
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--card-shadow), 0 0 50px rgba(217, 70, 239, 0.16);
       display: flex;
       flex-direction: column;
       overflow: hidden;
       position: relative;
-      transition: all 0.3s ease;
+      z-index: 1;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Standalone / PWA / Installed mode: fills 100% of the window */
+    /* Standalone / PWA / Installed mode: seamless borderless container */
     @media (display-mode: standalone), (display-mode: window-controls-overlay) {
       html, body {
-        background: var(--bg-glass);
+        background: var(--bg-glass-base);
       }
       .widget-frame {
         max-width: 100vw;
@@ -88,11 +137,8 @@
       }
     }
 
-    /* Small screens / mobile view fallback */
     @media (max-width: 460px) {
-      body {
-        padding: 0;
-      }
+      body { padding: 0; }
       .widget-frame {
         max-width: 100vw;
         max-height: 100vh;
@@ -105,59 +151,87 @@
     /* ===== Top Header ===== */
     .widget-header {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 18px 12px;
+      flex-direction: column;
+      padding: 18px 20px 14px;
       flex-shrink: 0;
-      border-bottom: 1px solid var(--border);
-      background: linear-gradient(135deg, rgba(217, 70, 239, 0.08), rgba(168, 85, 247, 0.04));
+      border-bottom: 1px solid var(--border-subtle);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(217, 70, 239, 0.04) 100%);
+      position: relative;
     }
 
-    .header-left {
+    .header-top {
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #d946ef, #8b5cf6);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    .brand-icon svg {
+      width: 16px;
+      height: 16px;
+      color: #fff;
     }
 
     .header-title {
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 800;
-      letter-spacing: 0.3px;
-      background: linear-gradient(135deg, #f5d0fe, #d946ef, #a855f7);
+      letter-spacing: -0.3px;
+      background: linear-gradient(135deg, #ffffff 10%, #f5d0fe 50%, #d946ef 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    .header-right {
+    .header-actions {
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    /* Pin to Home Screen Button */
+    /* Pin / Install Button */
     .pin-btn {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      background: linear-gradient(135deg, rgba(217, 70, 239, 0.3), rgba(168, 85, 247, 0.3));
-      border: 1px solid var(--border-strong);
-      color: #f5d0fe;
-      font-size: 11.5px;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(217, 70, 239, 0.28), rgba(139, 92, 246, 0.28));
+      border: 1px solid var(--border-bright);
+      box-shadow: var(--card-highlight), 0 3px 12px rgba(217, 70, 239, 0.2);
+      color: #fdf4ff;
+      font-size: 12px;
       font-weight: 700;
       font-family: inherit;
-      padding: 5px 11px;
+      padding: 6px 12px;
       border-radius: 20px;
       cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 10px rgba(217, 70, 239, 0.2);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .pin-btn:hover {
-      background: linear-gradient(135deg, #d946ef, #a855f7);
+      background: linear-gradient(135deg, #d946ef, #8b5cf6);
       color: #fff;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(217, 70, 239, 0.4);
+      transform: translateY(-1.5px) scale(1.02);
+      box-shadow: 0 6px 20px var(--primary-glow);
+    }
+
+    .pin-btn:active {
+      transform: translateY(0) scale(0.98);
     }
 
     .pin-btn svg {
@@ -166,82 +240,168 @@
       flex-shrink: 0;
     }
 
-    .task-count {
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--text-secondary);
-      background: var(--bg-card);
-      padding: 4px 10px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
+    /* Progress & Stats Bar */
+    .progress-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
 
-    /* ===== Main Content Container ===== */
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .progress-count {
+      color: var(--primary-bright);
+      font-weight: 700;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(45, 18, 75, 0.6);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #d946ef, #fb7185, #8b5cf6);
+      border-radius: 10px;
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 10px rgba(217, 70, 239, 0.6);
+    }
+
+    /* Filter Tabs */
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .filter-tab {
+      flex: 1;
+      padding: 5px 0;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text-dim);
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .filter-tab:hover {
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .filter-tab.active {
+      background: var(--bg-glass-card);
+      border-color: var(--border-subtle);
+      color: var(--primary-bright);
+      box-shadow: var(--card-highlight);
+    }
+
+    /* ===== Body / Task Container ===== */
     .widget-body {
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 14px 16px 12px;
+      padding: 14px 18px 10px;
       overflow: hidden;
     }
 
-    /* ===== Add Section ===== */
+    /* Input Box Section */
     .add-section {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       flex-shrink: 0;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .input-wrapper {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
     }
 
     .task-input {
-      flex: 1;
-      height: 44px;
-      padding: 0 14px;
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--bg-input);
-      color: var(--text-primary);
+      width: 100%;
+      height: 48px;
+      padding: 0 42px 0 16px;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      background: var(--bg-glass-input);
+      color: var(--text-main);
       font-family: inherit;
-      font-size: 13.5px;
+      font-size: 14px;
       outline: none;
-      transition: all 0.2s ease;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .task-input::placeholder {
-      color: var(--text-secondary);
-      opacity: 0.65;
+      color: var(--text-dim);
+      font-weight: 400;
     }
 
     .task-input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-glow), 0 0 18px rgba(217, 70, 239, 0.12);
-      background: rgba(58, 26, 94, 0.75);
+      border-color: var(--primary);
+      background: rgba(48, 18, 85, 0.8);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 0 3px var(--primary-glow), 0 0 20px rgba(217, 70, 239, 0.2);
+    }
+
+    .input-shortcut {
+      position: absolute;
+      right: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-dim);
+      background: rgba(255, 255, 255, 0.08);
+      padding: 3px 6px;
+      border-radius: 6px;
+      pointer-events: none;
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .add-btn {
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       flex-shrink: 0;
       border: none;
-      border-radius: var(--radius);
-      background: linear-gradient(135deg, #d946ef, #a855f7);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, #d946ef 0%, #8b5cf6 100%);
       color: #fff;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 14px rgba(217, 70, 239, 0.35);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 16px var(--primary-glow);
     }
 
     .add-btn:hover {
-      background: linear-gradient(135deg, #e879f9, #c084fc);
-      transform: scale(1.05);
-      box-shadow: 0 4px 20px rgba(217, 70, 239, 0.5);
+      background: linear-gradient(135deg, #f0abfc 0%, #a855f7 100%);
+      transform: translateY(-1.5px) scale(1.04);
+      box-shadow: 0 6px 24px rgba(217, 70, 239, 0.55);
     }
 
     .add-btn:active {
-      transform: scale(0.95);
+      transform: translateY(0) scale(0.95);
     }
 
     /* ===== Task List ===== */
@@ -251,6 +411,9 @@
       overflow-y: auto;
       overflow-x: hidden;
       padding-right: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
     }
 
     .task-list::-webkit-scrollbar {
@@ -262,168 +425,209 @@
     }
 
     .task-list::-webkit-scrollbar-thumb {
-      background: rgba(168, 85, 247, 0.3);
+      background: rgba(139, 92, 246, 0.3);
       border-radius: 10px;
     }
 
     .task-list::-webkit-scrollbar-thumb:hover {
-      background: rgba(217, 70, 239, 0.5);
+      background: rgba(217, 70, 239, 0.6);
     }
 
-    /* ===== Task Item ===== */
+    /* ===== Task Item Card ===== */
     .task-item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      margin-bottom: 6px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      transition: all 0.2s ease;
-      animation: slideIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--bg-glass-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      box-shadow: var(--card-highlight);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: taskPop 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
     }
 
-    @keyframes slideIn {
+    @keyframes taskPop {
       from {
         opacity: 0;
-        transform: translateY(-6px);
+        transform: translateY(-8px) scale(0.97);
       }
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
       }
     }
 
     .task-item:hover {
-      background: var(--bg-card-hover);
-      border-color: rgba(217, 70, 239, 0.28);
-      box-shadow: 0 2px 10px rgba(217, 70, 239, 0.08);
+      background: var(--bg-glass-card-hover);
+      border-color: var(--border-bright);
+      transform: translateY(-1.5px);
+      box-shadow: var(--card-highlight), 0 6px 18px rgba(10, 2, 22, 0.4);
     }
 
+    /* Done State */
     .task-item.done {
-      opacity: 0.6;
+      opacity: 0.55;
+      background: rgba(30, 12, 50, 0.3);
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .task-item.done:hover {
+      opacity: 0.8;
+      background: rgba(40, 15, 65, 0.4);
     }
 
     .task-item.done .task-text {
       text-decoration: line-through;
-      color: var(--text-done);
+      color: var(--text-strikethrough);
     }
 
-    .task-item.done .task-checkbox {
-      background: linear-gradient(135deg, #a855f7, #d946ef);
-      border-color: transparent;
-    }
-
-    .task-item.done .task-checkbox::after {
-      opacity: 1;
-    }
-
-    /* Checkbox */
+    /* Checkbox Button */
     .task-checkbox {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       flex-shrink: 0;
-      border: 2px solid rgba(168, 85, 247, 0.55);
-      border-radius: 6px;
+      border: 2px solid rgba(168, 85, 247, 0.6);
+      border-radius: 7px;
       cursor: pointer;
       position: relative;
-      transition: all 0.2s ease;
-      background: transparent;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      background: rgba(255, 255, 255, 0.03);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .task-checkbox:hover {
-      border-color: var(--accent);
-      box-shadow: 0 0 8px var(--accent-glow);
+      border-color: var(--primary);
+      background: rgba(217, 70, 239, 0.15);
+      box-shadow: 0 0 10px var(--primary-glow);
+      transform: scale(1.08);
     }
 
-    .task-checkbox::after {
-      content: '✓';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--success-check);
+    .task-item.done .task-checkbox {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-color: transparent;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+    }
+
+    .task-checkbox svg {
+      width: 13px;
+      height: 13px;
+      color: #fff;
       opacity: 0;
-      transition: opacity 0.15s ease;
+      transform: scale(0.6);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .task-item.done .task-checkbox svg {
+      opacity: 1;
+      transform: scale(1);
     }
 
     /* Task Text */
     .task-text {
       flex: 1;
-      font-size: 13.5px;
-      color: var(--text-primary);
-      line-height: 1.4;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-main);
+      line-height: 1.45;
       word-break: break-word;
       cursor: default;
+      transition: color 0.2s ease;
     }
 
     /* Edit Input */
     .task-edit-input {
       flex: 1;
-      height: 32px;
-      padding: 0 10px;
-      border: 1.5px solid var(--accent);
-      border-radius: 8px;
-      background: var(--bg-input);
-      color: var(--text-primary);
+      height: 34px;
+      padding: 0 12px;
+      border: 1.5px solid var(--primary);
+      border-radius: var(--radius-sm);
+      background: rgba(30, 10, 54, 0.9);
+      color: var(--text-main);
       font-family: inherit;
-      font-size: 13px;
+      font-size: 13.5px;
       outline: none;
-      box-shadow: 0 0 0 3px var(--accent-glow);
+      box-shadow: 0 0 0 3px var(--primary-glow);
     }
 
-    /* Action Buttons */
+    /* Action Buttons Group */
     .task-actions {
       display: flex;
-      gap: 3px;
+      gap: 4px;
       opacity: 0;
-      transition: opacity 0.15s ease;
+      transition: opacity 0.2s ease;
       flex-shrink: 0;
     }
 
-    .task-item:hover .task-actions {
+    .task-item:hover .task-actions,
+    .task-item:focus-within .task-actions {
       opacity: 1;
     }
 
+    /* Touch fallback: keep actions visible on touch devices */
+    @media (hover: none) {
+      .task-actions { opacity: 0.85; }
+    }
+
     .action-btn {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border: none;
-      border-radius: 6px;
-      background: transparent;
-      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
-      transition: all 0.15s ease;
+      transition: all 0.2s ease;
+    }
+
+    .action-btn svg {
+      width: 14px;
+      height: 14px;
     }
 
     .action-btn.edit-btn:hover {
-      background: var(--accent-soft);
-      color: var(--accent-hover);
+      background: rgba(217, 70, 239, 0.25);
+      color: #f5d0fe;
+      transform: scale(1.1);
     }
 
     .action-btn.delete-btn:hover {
-      background: rgba(244, 114, 182, 0.16);
-      color: var(--danger);
+      background: rgba(244, 63, 94, 0.25);
+      color: #fda4af;
+      transform: scale(1.1);
     }
 
     .action-btn.save-btn {
-      color: #c084fc;
+      background: rgba(52, 211, 153, 0.25);
+      color: #6ee7b7;
     }
 
     .action-btn.save-btn:hover {
-      background: rgba(168, 85, 247, 0.2);
+      background: rgba(52, 211, 153, 0.4);
+      transform: scale(1.1);
     }
 
     .action-btn.cancel-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+
+    /* Removing animation */
+    .task-item.removing {
+      animation: taskExit 0.22s cubic-bezier(0.4, 0, 1, 1) forwards;
+    }
+
+    @keyframes taskExit {
+      to {
+        opacity: 0;
+        transform: translateX(30px) scale(0.9);
+      }
     }
 
     /* ===== Footer ===== */
@@ -431,36 +635,41 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 16px;
+      padding: 12px 20px;
       flex-shrink: 0;
-      border-top: 1px solid var(--border);
-      background: rgba(18, 7, 34, 0.4);
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(14, 5, 28, 0.6);
     }
 
-    .footer-tip {
-      font-size: 11px;
-      color: var(--text-secondary);
-      opacity: 0.7;
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      color: var(--text-dim);
     }
 
     .clear-done-btn {
       font-family: inherit;
-      font-size: 11px;
-      font-weight: 600;
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
+      font-size: 11.5px;
+      font-weight: 700;
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.25);
+      color: #fca5a5;
       cursor: pointer;
-      padding: 4px 12px;
-      border-radius: 16px;
+      padding: 5px 14px;
+      border-radius: 20px;
       transition: all 0.2s ease;
-      letter-spacing: 0.2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
 
     .clear-done-btn:hover {
-      background: rgba(244, 114, 182, 0.15);
+      background: rgba(244, 63, 94, 0.28);
       border-color: var(--danger);
-      color: var(--danger);
+      color: #fff;
+      box-shadow: 0 2px 10px var(--danger-glow);
     }
 
     /* ===== Empty State ===== */
@@ -470,101 +679,126 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 12px;
+      padding: 20px 0;
     }
 
     .empty-state.visible {
       display: flex;
     }
 
-    .empty-icon {
-      font-size: 34px;
-      filter: drop-shadow(0 0 10px rgba(217, 70, 239, 0.4));
+    .empty-icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(217, 70, 239, 0.2) 0%, rgba(139, 92, 246, 0.05) 70%);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 0 24px rgba(217, 70, 239, 0.2);
+      animation: floatIcon 3.5s ease-in-out infinite alternate;
     }
 
-    .empty-state p {
-      font-size: 13px;
-      color: var(--text-secondary);
+    @keyframes floatIcon {
+      0% { transform: translateY(-3px); }
+      100% { transform: translateY(3px); }
+    }
+
+    .empty-state-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .empty-state-subtitle {
+      font-size: 12.5px;
+      color: var(--text-dim);
       text-align: center;
-    }
-
-    /* Removing animation */
-    .task-item.removing {
-      animation: slideOut 0.2s ease forwards;
-    }
-
-    @keyframes slideOut {
-      to {
-        opacity: 0;
-        transform: translateX(25px);
-      }
+      max-width: 220px;
+      line-height: 1.4;
     }
 
     /* ===== Pin / Home Screen Modal ===== */
     .modal-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(8, 2, 16, 0.82);
-      backdrop-filter: blur(14px);
+      background: rgba(8, 2, 16, 0.85);
+      backdrop-filter: blur(16px);
       display: none;
       align-items: center;
       justify-content: center;
       padding: 16px;
       z-index: 100;
-      animation: fadeIn 0.2s ease;
+      animation: modalFade 0.22s ease;
     }
 
     .modal-overlay.active {
       display: flex;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    @keyframes modalFade {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     .modal-card {
       width: 100%;
       max-width: 360px;
-      background: rgba(30, 12, 54, 0.96);
-      border: 1px solid var(--border-strong);
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+      background: rgba(28, 10, 52, 0.96);
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius-xl);
+      padding: 22px;
+      box-shadow: var(--card-shadow), 0 0 40px var(--primary-glow);
       text-align: center;
     }
 
-    .modal-title {
-      font-size: 16.5px;
-      font-weight: 800;
-      color: #f5d0fe;
-      margin-bottom: 12px;
+    .modal-header-icon {
+      width: 44px;
+      height: 44px;
+      margin: 0 auto 12px;
+      background: linear-gradient(135deg, #d946ef, #8b5cf6);
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      box-shadow: 0 4px 16px var(--primary-glow);
+    }
+
+    .modal-header-icon svg {
+      width: 22px;
+      height: 22px;
+      color: #fff;
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #fdf4ff;
+      margin-bottom: 6px;
     }
 
     .modal-subtitle {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin-bottom: 14px;
-      line-height: 1.4;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.45;
     }
 
     .modal-btn-group {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 9px;
       margin-bottom: 16px;
     }
 
     .modal-action-btn {
       width: 100%;
-      height: 40px;
+      height: 42px;
       border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #d946ef, #a855f7);
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #d946ef 0%, #8b5cf6 100%);
       color: #fff;
       font-weight: 700;
       font-family: inherit;
@@ -574,38 +808,43 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 14px rgba(217, 70, 239, 0.3);
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 14px var(--primary-glow);
     }
 
     .modal-action-btn:hover {
-      background: linear-gradient(135deg, #e879f9, #c084fc);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(217, 70, 239, 0.45);
+      background: linear-gradient(135deg, #f0abfc 0%, #a855f7 100%);
+      transform: translateY(-1.5px);
+      box-shadow: 0 6px 20px var(--primary-glow);
     }
 
     .modal-secondary-btn {
-      background: rgba(65, 30, 98, 0.6);
-      border: 1px solid var(--border);
+      background: rgba(65, 26, 105, 0.6);
+      border: 1px solid var(--border-subtle);
       color: #f5d0fe;
       box-shadow: none;
     }
 
     .modal-secondary-btn:hover {
-      background: rgba(85, 42, 128, 0.8);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      background: rgba(85, 36, 135, 0.85);
+      border-color: var(--border-bright);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
     }
 
     .modal-instructions {
       text-align: left;
       font-size: 12px;
-      color: var(--text-secondary);
-      background: rgba(20, 8, 38, 0.6);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      color: var(--text-muted);
+      background: rgba(18, 6, 34, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
       padding: 12px 14px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       line-height: 1.55;
+    }
+
+    .modal-instructions strong {
+      color: #fff;
     }
 
     .modal-instructions ul {
@@ -617,17 +856,13 @@
       margin-bottom: 4px;
     }
 
-    .modal-instructions strong {
-      color: var(--text-primary);
-    }
-
     .modal-close-btn {
       width: 100%;
       height: 36px;
       border: none;
-      border-radius: 10px;
+      border-radius: var(--radius-sm);
       background: transparent;
-      color: var(--text-secondary);
+      color: var(--text-dim);
       font-weight: 600;
       font-family: inherit;
       font-size: 12.5px;
@@ -643,53 +878,101 @@
 </head>
 <body>
 
+  <!-- Ambient Light Orbs -->
+  <div class="ambient-glow"></div>
+
   <div class="widget-frame">
     <!-- Header -->
     <div class="widget-header">
-      <div class="header-left">
-        <span class="header-title">📝 My Tasks</span>
+      <div class="header-top">
+        <div class="brand-title">
+          <div class="brand-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="header-title">My Tasks</span>
+        </div>
+        <div class="header-actions">
+          <button class="pin-btn" id="pinBtn" title="Pin to Desktop / Home Screen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v14M5 9l7 7 7-7M5 20h14" />
+            </svg>
+            <span id="pinBtnText">Pin Widget</span>
+          </button>
+        </div>
       </div>
-      <div class="header-right">
-        <button class="pin-btn" id="pinBtn" title="Pin to Home Screen / Desktop">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2v14M5 9l7 7 7-7M5 20h14" />
-          </svg>
-          <span id="pinBtnText">📌 Pin Widget</span>
-        </button>
-        <span class="task-count" id="taskCount">0 tasks</span>
+
+      <!-- Completion Progress Bar -->
+      <div class="progress-container">
+        <div class="progress-labels">
+          <span>Completion Progress</span>
+          <span class="progress-count" id="taskProgressCount">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">All (<span id="countAll">0</span>)</button>
+        <button class="filter-tab" data-filter="active">Active (<span id="countActive">0</span>)</button>
+        <button class="filter-tab" data-filter="completed">Done (<span id="countDone">0</span>)</button>
       </div>
     </div>
 
     <!-- Body -->
     <div class="widget-body">
+      <!-- Add Section -->
       <div class="add-section">
-        <input type="text" id="taskInput" class="task-input" placeholder="What needs to be done?" maxlength="120" autocomplete="off" />
+        <div class="input-wrapper">
+          <input type="text" id="taskInput" class="task-input" placeholder="Add a new task..." maxlength="120" autocomplete="off" />
+          <span class="input-shortcut">↵</span>
+        </div>
         <button class="add-btn" id="addBtn" title="Add task">
-          <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-            <path d="M10 4V16M4 10H16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
           </svg>
         </button>
       </div>
 
+      <!-- Tasks List -->
       <ul class="task-list" id="taskList"></ul>
 
+      <!-- Empty State -->
       <div class="empty-state" id="emptyState">
-        <span class="empty-icon">✨</span>
-        <p>No tasks yet — add one above!</p>
+        <div class="empty-icon-wrap">✨</div>
+        <div class="empty-state-title" id="emptyTitle">All caught up!</div>
+        <div class="empty-state-subtitle" id="emptySubtitle">Add your first task above to get started.</div>
       </div>
     </div>
 
     <!-- Footer -->
     <div class="widget-footer">
-      <span class="footer-tip">Press Enter ↵ to add</span>
-      <button class="clear-done-btn" id="clearDoneBtn">Clear done</button>
+      <div class="footer-left">
+        <span id="taskStatusText">0 tasks left</span>
+      </div>
+      <button class="clear-done-btn" id="clearDoneBtn" title="Remove completed tasks">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+        Clear Done
+      </button>
     </div>
 
     <!-- Pin / Home Screen Guide Modal -->
     <div class="modal-overlay" id="pinModal">
       <div class="modal-card">
+        <div class="modal-header-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v14M5 9l7 7 7-7M5 20h14" />
+          </svg>
+        </div>
         <div class="modal-title">📌 Pin to Home Screen & Desktop</div>
-        <p class="modal-subtitle">Add this widget directly to your desktop or phone home screen for instant access.</p>
+        <p class="modal-subtitle">Keep your tasks always accessible right on your Windows desktop or mobile home screen.</p>
         
         <div class="modal-btn-group">
           <!-- Install Button for PWA -->
@@ -697,7 +980,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 2v14M5 9l7 7 7-7M5 20h14" />
             </svg>
-            Install as Standalone App
+            Install Standalone Widget App
           </button>
           
           <!-- Shortcut Download Button -->
@@ -707,14 +990,14 @@
               <polyline points="15 3 21 3 21 9"></polyline>
               <line x1="10" y1="14" x2="21" y2="3"></line>
             </svg>
-            Save Desktop Shortcut (.url)
+            Download Desktop Shortcut (.url)
           </button>
         </div>
 
         <div class="modal-instructions">
-          <strong>Quick Steps:</strong>
+          <strong>Quick Setup:</strong>
           <ul>
-            <li><strong>Desktop:</strong> Click <strong>Install</strong> above (or the ⬇️ icon in URL bar), then right-click the taskbar icon & select <em>"Pin to taskbar"</em>.</li>
+            <li><strong>Desktop:</strong> Click <strong>Install</strong> or run <code>Add-To-Home-Screen.bat</code> to place the widget right on your desktop screen.</li>
             <li><strong>Mobile:</strong> Tap <strong>Share / ⫶</strong> & select <em>"Add to Home screen"</em>.</li>
           </ul>
         </div>
@@ -729,8 +1012,15 @@
     const taskInput = document.getElementById('taskInput');
     const addBtn = document.getElementById('addBtn');
     const taskList = document.getElementById('taskList');
-    const taskCount = document.getElementById('taskCount');
+    const progressFill = document.getElementById('progressFill');
+    const taskProgressCount = document.getElementById('taskProgressCount');
+    const taskStatusText = document.getElementById('taskStatusText');
+    const countAll = document.getElementById('countAll');
+    const countActive = document.getElementById('countActive');
+    const countDone = document.getElementById('countDone');
     const emptyState = document.getElementById('emptyState');
+    const emptyTitle = document.getElementById('emptyTitle');
+    const emptySubtitle = document.getElementById('emptySubtitle');
     const clearDoneBtn = document.getElementById('clearDoneBtn');
     const pinBtn = document.getElementById('pinBtn');
     const pinBtnText = document.getElementById('pinBtnText');
@@ -738,22 +1028,34 @@
     const modalCloseBtn = document.getElementById('modalCloseBtn');
     const installPwaBtn = document.getElementById('installPwaBtn');
     const downloadShortcutBtn = document.getElementById('downloadShortcutBtn');
+    const filterTabs = document.querySelectorAll('.filter-tab');
 
     // ───── State ─────
     let todos = JSON.parse(localStorage.getItem('todos') || '[]');
+    let currentFilter = 'all';
     let deferredPrompt = null;
 
-    // Check if running as standalone installed app
+    // Check if running in standalone mode
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
     if (isStandalone) {
       pinBtn.style.display = 'none';
     }
 
-    // ───── PWA Install Prompt Handler ─────
+    // Filter tab switching
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentFilter = tab.dataset.filter;
+        render();
+      });
+    });
+
+    // ───── PWA Install Prompt ─────
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      pinBtnText.textContent = '📌 Pin to Desktop';
+      pinBtnText.textContent = 'Pin Widget';
     });
 
     pinBtn.addEventListener('click', () => {
@@ -770,11 +1072,11 @@
         }
         deferredPrompt = null;
       } else {
-        alert('To install: click the ⬇️ Install icon in your browser address bar or menu (⋯ > Apps > Install Todo Widget).');
+        alert('To install: click the ⬇️ icon in your browser address bar, or run "Add-To-Home-Screen.bat" from the folder.');
       }
     });
 
-    // ───── Download Desktop Shortcut (.url) ─────
+    // ───── Download Desktop Shortcut ─────
     downloadShortcutBtn.addEventListener('click', () => {
       const currentUrl = window.location.href;
       const shortcutContent = `[InternetShortcut]\r\nURL=${currentUrl}\r\nIconIndex=0\r\n`;
@@ -788,76 +1090,121 @@
       URL.revokeObjectURL(a.href);
     });
 
-    modalCloseBtn.addEventListener('click', () => {
-      pinModal.classList.remove('active');
-    });
-
+    modalCloseBtn.addEventListener('click', () => pinModal.classList.remove('active'));
     pinModal.addEventListener('click', (e) => {
-      if (e.target === pinModal) {
-        pinModal.classList.remove('active');
-      }
+      if (e.target === pinModal) pinModal.classList.remove('active');
     });
 
-    // ───── Render Tasks ─────
+    // ───── Render Logic ─────
     function render() {
       taskList.innerHTML = '';
-      todos.forEach((todo, i) => {
-        const li = document.createElement('li');
-        li.className = 'task-item' + (todo.done ? ' done' : '');
 
-        const cb = document.createElement('button');
-        cb.className = 'task-checkbox';
-        cb.title = todo.done ? 'Mark undone' : 'Mark done';
-        cb.addEventListener('click', () => {
-          todos[i].done = !todos[i].done;
-          save();
-          render();
-        });
+      const totalCount = todos.length;
+      const completedCount = todos.filter(t => t.done).length;
+      const activeCount = totalCount - completedCount;
 
-        const span = document.createElement('span');
-        span.className = 'task-text';
-        span.textContent = todo.text;
+      countAll.textContent = totalCount;
+      countActive.textContent = activeCount;
+      countDone.textContent = completedCount;
 
-        const actions = document.createElement('div');
-        actions.className = 'task-actions';
+      // Progress Bar Calculation
+      const percentage = totalCount === 0 ? 0 : Math.round((completedCount / totalCount) * 100);
+      progressFill.style.width = percentage + '%';
+      taskProgressCount.textContent = percentage + '%';
+      taskStatusText.textContent = `${activeCount} ${activeCount === 1 ? 'task' : 'tasks'} remaining`;
 
-        const editBtn = document.createElement('button');
-        editBtn.className = 'action-btn edit-btn';
-        editBtn.title = 'Edit';
-        editBtn.innerHTML = '✏️';
-        editBtn.addEventListener('click', () => startEdit(i));
-
-        const delBtn = document.createElement('button');
-        delBtn.className = 'action-btn delete-btn';
-        delBtn.title = 'Delete';
-        delBtn.innerHTML = '🗑️';
-        delBtn.addEventListener('click', () => {
-          li.classList.add('removing');
-          li.addEventListener('animationend', () => {
-            todos.splice(i, 1);
-            save();
-            render();
-          }, { once: true });
-        });
-
-        actions.appendChild(editBtn);
-        actions.appendChild(delBtn);
-
-        li.appendChild(cb);
-        li.appendChild(span);
-        li.appendChild(actions);
-        taskList.appendChild(li);
+      // Filter todos
+      const filteredTodos = todos.map((todo, originalIndex) => ({ ...todo, originalIndex })).filter(item => {
+        if (currentFilter === 'active') return !item.done;
+        if (currentFilter === 'completed') return item.done;
+        return true;
       });
 
-      updateMeta();
-    }
+      if (filteredTodos.length === 0) {
+        emptyState.classList.add('visible');
+        taskList.style.display = 'none';
 
-    function updateMeta() {
-      const total = todos.length;
-      const done = todos.filter(t => t.done).length;
-      taskCount.textContent = total === 0 ? '0 tasks' : `${done}/${total} done`;
-      emptyState.classList.toggle('visible', total === 0);
-      taskList.style.display = total === 0 ? 'none' : '';
+        if (currentFilter === 'active' && totalCount > 0) {
+          emptyTitle.textContent = 'All tasks completed! 🎉';
+          emptySubtitle.textContent = 'Great job! You have finished everything on your list.';
+        } else if (currentFilter === 'completed' && totalCount > 0) {
+          emptyTitle.textContent = 'No completed tasks yet';
+          emptySubtitle.textContent = 'Check off tasks as you finish them.';
+        } else {
+          emptyTitle.textContent = 'All caught up!';
+          emptySubtitle.textContent = 'Add your first task above to get started.';
+        }
+      } else {
+        emptyState.classList.remove('visible');
+        taskList.style.display = 'flex';
+
+        filteredTodos.forEach(item => {
+          const idx = item.originalIndex;
+          const li = document.createElement('li');
+          li.className = 'task-item' + (item.done ? ' done' : '');
+
+          // Checkbox
+          const cb = document.createElement('button');
+          cb.className = 'task-checkbox';
+          cb.title = item.done ? 'Mark undone' : 'Mark done';
+          cb.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          `;
+          cb.addEventListener('click', () => {
+            todos[idx].done = !todos[idx].done;
+            save();
+            render();
+          });
+
+          // Text
+          const span = document.createElement('span');
+          span.className = 'task-text';
+          span.textContent = item.text;
+
+          // Actions
+          const actions = document.createElement('div');
+          actions.className = 'task-actions';
+
+          const editBtn = document.createElement('button');
+          editBtn.className = 'action-btn edit-btn';
+          editBtn.title = 'Edit task';
+          editBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+          `;
+          editBtn.addEventListener('click', () => startEdit(li, idx));
+
+          const delBtn = document.createElement('button');
+          delBtn.className = 'action-btn delete-btn';
+          delBtn.title = 'Delete task';
+          delBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+          `;
+          delBtn.addEventListener('click', () => {
+            li.classList.add('removing');
+            li.addEventListener('animationend', () => {
+              todos.splice(idx, 1);
+              save();
+              render();
+            }, { once: true });
+          });
+
+          actions.appendChild(editBtn);
+          actions.appendChild(delBtn);
+
+          li.appendChild(cb);
+          li.appendChild(span);
+          li.appendChild(actions);
+          taskList.appendChild(li);
+        });
+      }
     }
 
     function save() {
@@ -868,7 +1215,7 @@
     function addTodo() {
       const text = taskInput.value.trim();
       if (!text) return;
-      todos.unshift({ text, done: false });
+      todos.unshift({ text, done: false, createdAt: Date.now() });
       save();
       render();
       taskInput.value = '';
@@ -880,17 +1227,16 @@
       if (e.key === 'Enter') addTodo();
     });
 
-    // ───── Edit Task ─────
-    function startEdit(index) {
-      const li = taskList.querySelectorAll('.task-item')[index];
-      if (!li) return;
+    // ───── Inline Edit ─────
+    function startEdit(li, index) {
       const textSpan = li.querySelector('.task-text');
       const actionsDiv = li.querySelector('.task-actions');
+      const currentText = todos[index].text;
 
       const input = document.createElement('input');
       input.type = 'text';
       input.className = 'task-edit-input';
-      input.value = todos[index].text;
+      input.value = currentText;
       input.maxLength = 120;
       textSpan.replaceWith(input);
       input.focus();
@@ -902,20 +1248,29 @@
       const saveBtn = document.createElement('button');
       saveBtn.className = 'action-btn save-btn';
       saveBtn.title = 'Save';
-      saveBtn.innerHTML = '✔️';
+      saveBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      `;
 
       const cancelBtn = document.createElement('button');
       cancelBtn.className = 'action-btn cancel-btn';
       cancelBtn.title = 'Cancel';
-      cancelBtn.innerHTML = '✖️';
+      cancelBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      `;
 
       actionsDiv.appendChild(saveBtn);
       actionsDiv.appendChild(cancelBtn);
 
       function doSave() {
-        const t = input.value.trim();
-        if (t) {
-          todos[index].text = t;
+        const val = input.value.trim();
+        if (val) {
+          todos[index].text = val;
           save();
         }
         render();
@@ -931,15 +1286,18 @@
 
     // ───── Clear Completed ─────
     clearDoneBtn.addEventListener('click', () => {
-      todos = todos.filter(t => !t.done);
-      save();
-      render();
+      const remaining = todos.filter(t => !t.done);
+      if (remaining.length !== todos.length) {
+        todos = remaining;
+        save();
+        render();
+      }
     });
 
-    // ───── Init ─────
+    // ───── Initial Load ─────
     render();
 
-    // Register Service Worker for PWA
+    // Register Service Worker for offline PWA
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js').catch(() => {});
     }
